@@ -1,0 +1,456 @@
+{
+  "info": {
+    "_postman_id": "add833f6-8cf0-496f-a846-d4417b2a2c33",
+    "name": "ms-pedidos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48922104"
+  },
+  "item": [
+    {
+      "name": "00 - Login (ms-usuarios)",
+      "item": [
+        {
+          "name": "Login Administrador",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"token\", pm.response.json().token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"admin@empresa.com\", \"password\": \"Admin2026*\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{usuarios}}/login",
+              "host": [
+                "{{usuarios}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login rol sin permiso",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"token_basico\", pm.response.json().token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"despacho@logired.com\", \"password\": \"Despacho2026*\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{usuarios}}/login",
+              "host": [
+                "{{usuarios}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "GET /health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3011/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3011",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "01 - Listar todos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02 - Filtrar por estado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}?estado=pendiente",
+          "host": [
+            "{{base}}"
+          ],
+          "query": [
+            {
+              "key": "estado",
+              "value": "pendiente"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03 - Obtener un registro existente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/2",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "04 - Obtener un id que no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/99",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "99"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "05 - Obtener con id no numérico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/abc",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "abc"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "06 - Crear con datos válidos",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-010\",\r\n  \"cliente\": \"Sofia Lopez\",\r\n  \"cantidad\": 7,\r\n  \"fecha\": \"2026-11-20\",\r\n  \"estado\": \"pendiente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "07 - Crear sin un atributo obligatorio",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-011\",\r\n  \"cliente\": \"Mario Castillo\",\r\n  \"cantidad\": 2,\r\n  \"fecha\": \"2026-11-21\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "08 - Crear violando la regla de negocio",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-001\",\r\n  \"cliente\": \"Otro Cliente\",\r\n  \"cantidad\": 4,\r\n  \"fecha\": \"2026-11-22\",\r\n  \"estado\": \"pendiente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "09 - Actualizar un registro existente",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-001\",\r\n  \"cliente\": \"Laura Gómez Restrepo\",\r\n  \"cantidad\": 6,\r\n  \"fecha\": \"2026-11-02\",\r\n  \"estado\": \"enviado\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/1",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10 - Actualizar un id que no existe",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-099\",\r\n  \"cliente\": \"Cliente Inexistente\",\r\n  \"cantidad\": 1,\r\n  \"fecha\": \"2026-11-22\",\r\n  \"estado\": \"pendiente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/99",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "99"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11 - Eliminar un registro existente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/4",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12 - Eliminar el mismo registro otra vez",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/4",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13 - Petición sin token",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "14 - Token modificado",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}xx",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "15 - POST con rol sin permiso",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token_basico}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"numero\": \"PED-020\",\r\n  \"cliente\": \"Prueba Rol\",\r\n  \"cantidad\": 3,\r\n  \"fecha\": \"2026-11-23\",\r\n  \"estado\": \"pendiente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}",
+          "host": [
+            "{{base}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base",
+      "value": ""
+    },
+    {
+      "key": "usuarios",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "token_basico",
+      "value": ""
+    }
+  ]
+}
