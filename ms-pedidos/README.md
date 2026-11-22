@@ -105,4 +105,27 @@ En un servidor con systemd se ven con `journalctl -u ms-pedidos -f`.
 
 ## Pruebas
 
-La colección de Postman va en `docs/`, con el login y los casos de cada código.
+La colección de Postman está en `docs/ms-pedidos.postman_collection.json`.
+
+Para ejecutarla:
+
+1. Tener ms-usuarios corriendo en el puerto 3001 y ms-pedidos en el 3011.
+2. Importar la colección en Postman.
+3. En la pestaña **Variables** de la colección, confirmar `base` y `usuarios`.
+4. Correr las dos peticiones de la carpeta `00 - Login (ms-usuarios)`. Sus scripts guardan los tokens en las variables `token` y `token_basico`.
+5. Ejecutar la colección completa con **Run**.
+
+Las 18 peticiones cubren todos los códigos del contrato, en este orden:
+
+| Código | Peticiones |
+|---|---|
+| 200 | login, listar, filtrar, obtener existente, actualizar existente, consultar con rol sin permiso de escritura |
+| 201 | crear con datos válidos |
+| 204 | eliminar un registro existente |
+| 400 | id no numérico, falta un atributo obligatorio |
+| 401 | petición sin token, token modificado |
+| 403 | POST con un rol que no es administrador |
+| 404 | obtener, actualizar y eliminar un id que no existe |
+| 409 | crear con un número de pedido repetido |
+
+Las peticiones 11 y 12 borran el pedido con id 4. Para volver a correr la colección desde cero, basta con ejecutar otra vez `db/schema.sql`, que empieza con `DROP TABLE IF EXISTS`.
