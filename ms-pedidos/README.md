@@ -55,6 +55,17 @@ Ejemplo:
 ```json
 { "id": 1, "numero": "PED-001", "cliente": "Laura Gómez", "cantidad": 3, "fecha": "2026-11-02", "estado": "pendiente", "transportadora_id": 1 }
 ```
+## Relación con ms-transportadoras
+
+`transportadora_id` se valida contra **ms-transportadoras** (puerto 3012, variable `TRANSPORTADORAS_URL`) al crear y al actualizar. El token del usuario se reenvía al proveedor.
+
+| Situación | Respuesta |
+|---|---|
+| La transportadora no existe en el proveedor | 400 |
+| El proveedor no responde | 503 |
+| `cantidad` supera `max_unidades` de la transportadora | 400 |
+
+**Regla de negocio:** la `cantidad` del pedido no puede superar el `max_unidades` de su transportadora.
 
 ## Endpoints
 
@@ -81,7 +92,8 @@ Base: `http://127.0.0.1:3011`
 
 | Código | Cuándo |
 |---|---|
-| 400 | Datos inválidos, JSON mal formado, id no numérico o filtro no válido |
+| 400 | Datos inválidos, JSON mal formado, id no numérico o filtro no válido, la transportadora no existe o la cantidad supera su maximo |
+| 503 | ms-transportadoras no responde |
 | 401 | Falta el token o es inválido o está vencido |
 | 403 | El rol no es administrador (POST, PUT, DELETE) |
 | 404 | No existe un pedido con ese id, o la ruta no existe |

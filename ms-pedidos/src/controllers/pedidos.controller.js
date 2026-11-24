@@ -1,8 +1,5 @@
-// =====================================================================
 // CAPA DE PRESENTACIÓN (controlador)
-// Traduce HTTP <-> servicio: lee la petición (params, query, body),
-// llama al servicio y arma la respuesta (código de estado + JSON).
-// =====================================================================
+
 const service = require('../services/pedidos.service');
 const HttpError = require('../utils/http-error');
 
@@ -12,26 +9,29 @@ function leerId(req) {
   return id;
 }
 
+// La cabecera completa, "Bearer <token>", tal como llegó
+const leerToken = (req) => req.headers.authorization;
+
 // GET /pedidos, GET /pedidos?estado=pendiente
 async function listar(req, res) {
-  const pedidos = await service.listar({ estado: req.query.estado });
+  const pedidos = await service.listar({ estado: req.query.estado }, leerToken(req));
   res.status(200).json(pedidos);
 }
 
 // GET /pedidos/:id
 async function obtener(req, res) {
-  res.status(200).json(await service.obtener(leerId(req)));
+  res.status(200).json(await service.obtener(leerId(req), leerToken(req)));
 }
 
 // POST /pedidos
 async function crear(req, res) {
-  const nuevo = await service.crear(req.body);
+  const nuevo = await service.crear(req.body, leerToken(req));
   res.status(201).location(`${req.baseUrl}/${nuevo.id}`).json(nuevo);
 }
 
 // PUT /pedidos/:id
 async function actualizar(req, res) {
-  res.status(200).json(await service.actualizar(leerId(req), req.body));
+  res.status(200).json(await service.actualizar(leerId(req), req.body, leerToken(req)));
 }
 
 // DELETE /pedidos/:id
