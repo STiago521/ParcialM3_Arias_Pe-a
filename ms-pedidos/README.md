@@ -35,6 +35,7 @@ Está organizado en capas, igual que los microservicios del módulo:
 | `DB_HOST`, `DB_PORT` | localhost, 3306 | Servidor MySQL |
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD` | pedidos_db, pedidos_user | Base de datos propia |
 | `JWT_SECRET` | (la de ms-usuarios) | Clave para verificar los tokens |
+| `TRANSPORTADORAS_URL` |  http://127.0.0.1:3012   |  Direccion de ms-transportadoras, el microservicio proveedor |
 
 ## Recurso: Pedido
 
@@ -46,12 +47,13 @@ Está organizado en capas, igual que los microservicios del módulo:
 | `cantidad` | entero | Obligatorio, mayor que 0 |
 | `fecha` | fecha | Obligatoria, formato `AAAA-MM-DD` y fecha real |
 | `estado` | texto | Obligatorio: `pendiente`, `enviado` o `entregado` |
+| `transportadora_id`   |  entero   |  Obligatorio, entero positivo. Referencia a la transportadora en ms-transportadoras  |
 
-El pedido no tiene ningún campo que referencie a otra entidad.
+`transportadora_id` referencia a una transportadora de **ms-transportadoras** (puerto 3012). No es una clave foranea de base de datos: cada microservicio es dueño de la suya, y la referencia se valida por HTTP contra el proveedor.
 
 Ejemplo:
 ```json
-{ "id": 1, "numero": "PED-001", "cliente": "Laura Gómez", "cantidad": 3, "fecha": "2026-11-02", "estado": "pendiente" }
+{ "id": 1, "numero": "PED-001", "cliente": "Laura Gómez", "cantidad": 3, "fecha": "2026-11-02", "estado": "pendiente", "transportadora_id": 1 }
 ```
 
 ## Endpoints

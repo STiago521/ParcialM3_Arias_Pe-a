@@ -2,7 +2,7 @@
 // CAPA DE MODELO (entidad)
 // Define qué campos tiene un Pedido y qué reglas deben cumplir.
 // No sabe nada de HTTP ni de bases de datos.
-// No tiene ningún campo _id hacia otra entidad.
+// transportadora_id es la referencia a ms-transportadoras.
 // =====================================================================
 
 const ESTADOS = ['pendiente', 'enviado', 'entregado'];
@@ -33,6 +33,9 @@ function validarPedido(datos) {
   if (!ESTADOS.includes(datos.estado)) {
     errores.push(`estado es obligatorio y debe ser uno de: ${ESTADOS.join(', ')}`);
   }
+  if (!Number.isInteger(datos.transportadora_id) || datos.transportadora_id <= 0){
+    errores.push('transportadora_id es obligatorio y debe ser un entero mayor que 0');
+  }
   return errores;
 }
 
@@ -44,6 +47,7 @@ function construirPedido(datos) {
     cantidad: datos.cantidad,
     fecha: datos.fecha,
     estado: datos.estado,
+    transportadora_id: datos.transportadora_id,
   };
 }
 

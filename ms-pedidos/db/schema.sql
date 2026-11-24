@@ -9,11 +9,12 @@ CREATE TABLE pedidos (
   cliente   VARCHAR(100) NOT NULL,
   cantidad  INT          NOT NULL,
   fecha     DATE         NOT NULL,
-  estado    VARCHAR(20)  NOT NULL DEFAULT 'pendiente'
+  estado    VARCHAR(20)  NOT NULL DEFAULT 'pendiente',
+  transportadora_id INT  NOT NULL
 );
 
-INSERT INTO pedidos (numero, cliente, cantidad, fecha, estado) VALUES
-  ('PED-001', 'Laura Gómez',   3, '2026-11-02', 'pendiente'),
-  ('PED-002', 'Andrés Rojas',  1, '2026-11-05', 'enviado'),
-  ('PED-003', 'Camila Torres', 5, '2026-11-08', 'entregado'),
-  ('PED-004', 'Diego Herrera', 2, '2026-11-10', 'pendiente');
+INSERT INTO pedidos (numero, cliente, cantidad, fecha, estado, transportadora_id) VALUES
+  ('PED-001', 'Laura Gómez',   3, '2026-11-02', 'pendiente', 1),
+  ('PED-002', 'Andrés Rojas',  1, '2026-11-05', 'enviado', 2),
+  ('PED-003', 'Camila Torres', 5, '2026-11-08', 'entregado', 3),
+  ('PED-004', 'Diego Herrera', 2, '2026-11-10', 'pendiente', 4);

@@ -29,16 +29,16 @@ async function findByNumero(numero) {
 
 async function create(p) {
   const [resultado] = await pool.query(
-    'INSERT INTO pedidos (numero, cliente, cantidad, fecha, estado) VALUES (?, ?, ?, ?, ?)',
-    [p.numero, p.cliente, p.cantidad, p.fecha, p.estado],
+    'INSERT INTO pedidos (numero, cliente, cantidad, fecha, estado, transportadora_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [p.numero, p.cliente, p.cantidad, p.fecha, p.estado, p.transportadora_id],
   );
   return findById(resultado.insertId);
 }
 
 async function update(id, p) {
   await pool.query(
-    'UPDATE pedidos SET numero = ?, cliente = ?, cantidad = ?, fecha = ?, estado = ? WHERE id = ?',
-    [p.numero, p.cliente, p.cantidad, p.fecha, p.estado, id],
+    'UPDATE pedidos SET numero = ?, cliente = ?, cantidad = ?, fecha = ?, estado = ?, transportadora_id = ? WHERE id = ?',
+    [p.numero, p.cliente, p.cantidad, p.fecha, p.estado, p.transportadora_id, id],
   );
   return findById(id);
 }
