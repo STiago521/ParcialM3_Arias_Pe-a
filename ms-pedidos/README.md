@@ -67,6 +67,8 @@ Ejemplo:
 
 **Regla de negocio:** la `cantidad` del pedido no puede superar el `max_unidades` de su transportadora.
 
+**Composición:** `GET /pedidos` y `GET /pedidos/:id` devuelven dentro de cada pedido el objeto `transportadora` con `id`, `nombre_empresa` y `nit`. El listado resuelve todas sus transportadoras con **una sola** petición `GET /transportadoras?ids=...` al proveedor. SI el proveedor no responde, el pedido sale con `transportadora: null` y un `aviso`, en lugar de fallar.
+
 ## Endpoints
 
 Base: `http://127.0.0.1:3011`
